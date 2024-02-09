@@ -1,0 +1,604 @@
+Practice​ ​ Exercises​ ​ - ​ ​ Shell​ ​ Scripting​ ​ Succinctly
+****************************************************************************************
+Exercise​ ​ 1:
+Write​ ​ a ​ ​ shell​ ​ script​ ​ that​ ​ prints​ ​ "Shell​ ​ Scripting​ ​ is​ ​ Fun!"​ ​ to​ ​ the​ ​ screen.
+Hint​ ​ 1:
+Remember​ ​ to​ ​ make​ ​ the​ ​ shell​ ​ script​ ​ executable​ ​ with​ ​ the​ ​ chmod​ ​ command.
+Hint​ ​ 2:
+Remember​ ​ to​ ​ start​ ​ your​ ​ script​ ​ with​ ​ a ​ ​ shebang!
+
+#!/bin/bash
+
+echo "Shell Scripting is Fun!"
+
+chmod +x your_script_name.sh
+
+==========================================================================================
+Exercise​ ​ 2:
+Modify​ ​ the​ ​ shell​ ​ script​ ​ from​ ​ exercise​ ​ 1 ​ ​ to​ ​ include​ ​ a ​ ​ variable.​ ​ ​ The​ ​ variable​ ​ will​ ​ hold​ ​ the​ ​ contents
+of​ ​ the​ ​ message​ ​ "Shell​ ​ Scripting​ ​ is​ ​ Fun!".
+
+#!/bin/bash
+
+message="Shell Scripting is Fun!"
+echo "$message"
+
+============================================================================================
+Exercise​ ​ 3:
+Store​ ​ the​ ​ output​ ​ of​ ​ the​ ​ command​ ​ "hostname"​ ​ in​ ​ a ​ ​ variable.​ ​ ​ Display​ ​ "This​ ​ script​ ​ is​ ​ running​ ​ on
+_______."​ ​ where​ ​ "_______"​ ​ is​ ​ the​ ​ output​ ​ of​ ​ the​ ​ "hostname"​ ​ command.
+Hint:
+It's​ ​ a ​ ​ best​ ​ practice​ ​ to​ ​ use​ ​ the​ ​ ${VARIABLE}​ ​ syntax​ ​ if​ ​ there​ ​ is​ ​ text​ ​ or​ ​ characters​ ​ that​ ​ directly
+precede​ ​ or​ ​ follow​ ​ the​ ​ variable.
+
+#!/bin/bash
+
+host=$(hostname)
+echo "This script is running on ${host}."
+ 
+=============================================================================================
+Exercise​ ​ 4:
+Write​ ​ a ​ ​ shell​ ​ script​ ​ to​ ​ check​ ​ to​ ​ see​ ​ if​ ​ the​ ​ file​ ​ "/etc/shadow"​ ​ exists.​ ​ ​ If​ ​ it​ ​ does​ ​ exist,​ ​ display
+"Shadow​ ​ passwords​ ​ are​ ​ enabled."​ ​ ​ Next,​ ​ check​ ​ to​ ​ see​ ​ if​ ​ you​ ​ can​ ​ write​ ​ to​ ​ the​ ​ file.​ ​ ​ If​ ​ you​ ​ can,
+display​ ​ "You​ ​ have​ ​ permissions​ ​ to​ ​ edit​ ​ /etc/shadow."​ ​ ​ If​ ​ you​ ​ cannot,​ ​ display​ ​ "You​ ​ do​ ​ NOT​ ​ have
+permissions​ ​ to​ ​ edit​ ​ /etc/shadow."
+
+#!/bin/bash
+
+if [ -e "/etc/shadow" ]; then
+    echo "Shadow passwords are enabled."
+    
+    if [ -w "/etc/shadow" ]; then
+        echo "You have permissions to edit /etc/shadow."
+    else
+        echo "You do NOT have permissions to edit /etc/shadow."
+    fi
+else
+    echo "File /etc/shadow does not exist."
+fi
+
+===========================================================================================
+Exercise​ ​ 5:
+Write​ ​ a ​ ​ shell​ ​ script​ ​ that​ ​ displays​ ​ "man",​ ​ "bear",​ ​ "pig",​ ​ "dog",​ ​ "cat",​ ​ and​ ​ "sheep"​ ​ to​ ​ the​ ​ screen​ ​ with
+each​ ​ appearing​ ​ on​ ​ a ​ ​ separate​ ​ line.​ ​ ​ Try​ ​ to​ ​ do​ ​ this​ ​ in​ ​ as​ ​ few​ ​ lines​ ​ as​ ​ possible.
+Hint:​ ​ Loops​ ​ can​ ​ be​ ​ used​ ​ to​ ​ perform​ ​ repetitive​ ​ tasks.
+
+#!/bin/bash
+
+words=("man" "bear" "pig" "dog" "cat" "sheep")
+
+for word in "${words[@]}"; do
+    echo "$word"
+done
+
+==========================================================================================
+Exercise​ ​ 6:
+Write​ ​ a ​ ​ shell​ ​ script​ ​ that​ ​ prompts​ ​ the​ ​ user​ ​ for​ ​ a ​ ​ name​ ​ of​ ​ a ​ ​ file​ ​ or​ ​ directory​ ​ and​ ​ reports​ ​ if​ ​ it​ ​ is​ ​ a
+regular​ ​ file,​ ​ a ​ ​ directory,​ ​ or​ ​ other​ ​ type​ ​ of​ ​ file.
+Also​ ​ perform​ ​ an​ ​ ls​ ​ command​ ​ against​ ​ the​ ​ file​ ​ or​ ​ directory​ ​ with​ ​ the​ ​ long​ ​ listing​ ​ option.
+
+#!/bin/bash
+
+read -p "Enter the name of a file or directory: " file_or_dir
+
+# Check if the input exists
+if [ -e "$file_or_dir" ]; then
+    # Report the type of file
+    if [ -f "$file_or_dir" ]; then
+        echo "$file_or_dir is a regular file."
+    elif [ -d "$file_or_dir" ]; then
+        echo "$file_or_dir is a directory."
+    else
+        echo "$file_or_dir is some other type of file."
+    fi
+    
+    ls -l "$file_or_dir"
+else
+    echo "$file_or_dir does not exist."
+fi
+
+===========================================================================================
+Exercise​ ​ 7:
+Modify​ ​ the​ ​ previous​ ​ script​ ​ so​ ​ that​ ​ it​ ​ accepts​ ​ the​ ​ file​ ​ or​ ​ directory​ ​ name​ ​ as​ ​ an​ ​ argument​ ​ instead​ ​ of
+prompting​ ​ the​ ​ user​ ​ to​ ​ enter​ ​ it.
+
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <file_or_directory>"
+    exit 1
+fi
+
+file_or_dir="$1" 
+
+if [ -e "$file_or_dir" ]; then
+   
+    if [ -f "$file_or_dir" ]; then
+        echo "$file_or_dir is a regular file."
+    elif [ -d "$file_or_dir" ]; then
+        echo "$file_or_dir is a directory."
+    else
+        echo "$file_or_dir is some other type of file."
+    fi
+    
+ 
+    ls -l "$file_or_dir"
+else
+    echo "$file_or_dir does not exist."
+fi
+
+=============================================================================================
+Exercise​ ​ 8:
+Modify​ ​ the​ ​ previous​ ​ script​ ​ to​ ​ accept​ ​ an​ ​ unlimited​ ​ number​ ​ of​ ​ files​ ​ and​ ​ directories​ ​ as​ ​ arguments.
+Hint:​ ​ You'll​ ​ want​ ​ to​ ​ use​ ​ a ​ ​ special​ ​ variable.
+
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    echo "Usage: $0 <file_or_directory1> <file_or_directory2> ..."
+    exit 1
+fi
+
+
+for file_or_dir in "$@"; do
+  
+    if [ -e "$file_or_dir" ]; then
+     
+        if [ -f "$file_or_dir" ]; then
+            echo "$file_or_dir is a regular file."
+        elif [ -d "$file_or_dir" ]; then
+            echo "$file_or_dir is a directory."
+        else
+            echo "$file_or_dir is some other type of file."
+        fi
+     
+        ls -l "$file_or_dir"
+    else
+        echo "$file_or_dir does not exist."
+    fi
+    echo
+done
+ 
+==========================================================================================
+******************************************************************************************
+Practice Exercises - Exit Statuses and Return Codes
+*******************************************************************************************
+Exercise 1: (Practical-9.sh)
+Write a shell script that displays "This script will exit with a 0 exit status." Be sure that the script
+does indeed exit with a 0 exit status.
+
+#!/bin/bash
+
+echo "This script will exit with a 0 exit status."
+
+exit 0
+
+=============================================================================================
+Exercise 2: (Practical-10.sh)
+Write a shell script that accepts a file or directory name as an argument. Have the script report
+if it is a regular file, a directory, or other type of file. If it is a regular file, exit with a 0 exit status.
+If it is a directory, exit with a 1 exit status. If it is some other type of file, exit with a 2 exit status.
+
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <file_or_directory>"
+    exit 3  # Exit with status 3 for incorrect usage
+fi
+
+if [ ! -e "$1" ]; then
+    echo "Error: '$1' does not exist."
+    exit 4  # Exit with status 4 for non-existent file or directory
+fi
+
+if [ -f "$1" ]; then
+    echo "'$1' is a regular file."
+    exit 0  # Exit with status 0 for regular file
+
+elif [ -d "$1" ]; then
+    echo "'$1' is a directory."
+    exit 1  # Exit with status 1 for directory
+else
+    echo "'$1' is some other type of file."
+    exit 2  # Exit with status 2 for other types of files
+fi
+
+==========================================================================================
+Exercise 3: (Practical-11.sh)
+Write a script that executes the command "cat /etc/shadow". If the command returns a 0 exit
+status report "Command succeeded" and exit with a 0 exit status. If the command returns a
+non­zero exit status report "Command failed" and exit with a 1 exit status.
+
+#!/bin/bash
+
+cat /etc/shadow
+
+if [ $? -eq 0 ]; then
+    echo "Command succeeded"
+    exit 0
+else
+    echo "Command failed"
+    exit 1
+fi
+
+==========================================================================================
+******************************************************************************************
+Practice Exercises - Functions
+*******************************************************************************************
+Exercise 1:(Practical-12.sh)
+Write a shell script that consists of a function that display the number of files in the present
+working directory. Name this function "file_count" and call it in your script. If you use a variable
+in your function, remember to make it a local variable.
+Hint: The ​wc utility is used to count the number of lines, words, and bytes.
+
+#!/bin/bash
+
+file_count() {
+    local count=$(ls -l | grep "^-" | wc -l)
+    echo "Number of files in the current directory: $count"
+}
+
+file_count
+
+=============================================================================================
+Exercise 2: (Practical-13.sh)
+Modify the script from the previous exercise. Make the "file_count" function accept a directory
+as an argument. Next have the function display the name of the directory followed by a colon.
+Finally, display the number of files to the screen on the next line. Call the function three times.
+First, on the "/etc" directory, next on the "/var" directory and finally on the "/usr/bin" directory.
+Example output:
+/etc:
+85
+
+#!/bin/bash
+
+file_count() {
+    local directory="$1"  # Accept directory as an argument
+    local count=$(ls -l "$directory" | grep "^-" | wc -l)
+    echo "$directory:"
+    echo "$count"
+}
+
+file_count "/etc"
+
+file_count "/var"
+
+file_count "/usr/bin"
+
+==========================================================================================
+******************************************************************************************
+Practice Exercises - Wildcards
+*****************************************************************************************
+Exercise 1: (Practical-14.sh)
+Write a shell script that renames all files in the current directory that end in ".jpg" to begin with
+today's date in the following format: YYYY­MM­DD. For example, if a picture of my cat was in
+the current directory and today was October 31, 2016 it would change name from "mycat.jpg" to
+"2016­10­31­mycat.jpg".
+Hint: Look at the format options to the date command.
+For "extra credit" make sure to gracefully handle instances where there are no ".jpg" files in the
+current directory. (Hint: Man bash and read the section on the nullglob option.)
+
+#!/bin/bash
+
+shopt -s nullglob
+
+today=$(date +'%Y-%m-%d')
+
+for file in *.jpg; do
+
+    if [ -e "$file" ]; then
+      
+        filename="${file%.jpg}"
+      
+        mv "$file" "$today-$filename.jpg"
+        echo "Renamed $file to $today-$filename.jpg"
+    else
+        echo "No JPG files found in the current directory."
+    fi
+done
+
+============================================================================================
+Exercise 2: (Practical-15.sh)
+Write a script that renames files based on the file extension. The script should prompt the user
+for a file extension. Next, it should ask the user what prefix to prepend to the file name(s). By
+default the prefix should be the current date in YYYY­MM­DD format. So, if the user simply
+presses enter the date will be used. Otherwise, whatever the user entered will be used as the
+prefix. Next, it should display the original file name and the new name of the file. Finally, it
+should rename the file.
+Example output 1:
+Please enter a file extension: jpg
+Please enter a file prefix: (Press ENTER for 2015­08­10). vacation
+Renaming mycat.jpg to vacation­mycat.jpg.
+Example output 2:
+Please enter a file extension: jpg
+Please enter a file prefix: (Press ENTER for 2015­08­10).
+Renaming mycat.jpg to 2015­08­10­mycat.jpg.
+
+#!/bin/bash
+
+read -p "Please enter a file extension: " extension
+
+read -p "Please enter a file prefix: (Press ENTER for $(date +'%Y-%m-%d')). " prefix
+
+if [ -z "$prefix" ]; then
+    prefix=$(date +'%Y-%m-%d')
+fi
+
+for file in *.$extension; do
+  
+    if [ -e "$file" ]; then
+        filename="${file%.$extension}"
+        new_filename="$prefix-$filename.$extension"
+        echo "Renaming $file to $new_filename."
+       
+        mv "$file" "$new_filename"
+    else
+        echo "No files with .$extension extension found in the current directory."
+    fi
+done
+
+=============================================================================================
+*********************************************************************************************
+Practice Exercises - Case Statements
+*********************************************************************************************
+Exercise 1: (Practical-16.sh)
+Create a startup script for an application called sleep­walking­server, which is provided below.
+The script should be named sleep­walking and accept "start" and "stop" as arguments. If
+anything other than "start" or "stop" is provided as an argument, display a usage statement:
+"Usage sleep­walking start|stop" and terminate the script with an exit status of 1.
+To start sleep­walking­server, use this command: "/tmp/sleep­walking­server &"
+To stop sleep­walking­server, use this command: "kill $(cat /tmp/sleep­walking­server.pid)"
+Here is the contents of "sleep­walking­server". Be sure to put this file in /tmp and run chmod
+755 /tmp/sleep­walking­server
+
+#!/bin/bash
+PID_FILE="/tmp/sleep­walking­server.pid"
+trap "rm $PID_FILE; exit" SIGHUP SIGINT SIGTERM
+echo "$$" > $PID_FILE
+while true
+do
+:
+done
+
+#!/bin/bash
+
+PID_FILE="/tmp/sleep-walking-server.pid"
+SERVER_SCRIPT="/tmp/sleep-walking-server"
+
+if [ ! -x "$SERVER_SCRIPT" ]; then
+    echo "Error: The sleep-walking-server script is not executable."
+    exit 1
+fi
+
+start_server() {
+    if [ -f "$PID_FILE" ]; then
+        echo "Error: The server is already running."
+        exit 1
+    fi
+    "$SERVER_SCRIPT" &
+    echo "$!" > "$PID_FILE"
+    echo "sleep-walking-server started."
+}
+
+stop_server() {
+    if [ ! -f "$PID_FILE" ]; then
+        echo "Error: The server is not running."
+        exit 1
+    fi
+    kill "$(cat "$PID_FILE")"
+    rm "$PID_FILE"
+    echo "sleep-walking-server stopped."
+}
+
+case "$1" in
+    start)
+        start_server
+        ;;
+    stop)
+        stop_server
+        ;;
+    *)
+        echo "Usage: $0 start|stop"
+        exit 1
+        ;;
+esac
+
+exit 0
+
+=========================================================================================
+*****************************************************************************************
+Practice Exercises - Logging
+*****************************************************************************************
+Exercise 1: (Practical-17.sh)
+Write a shell script that displays one random number to the screen and also generates a syslog
+message with that random number. Use the "user" facility and the "info" facility for your
+messages.
+Hint: Use $RANDOM
+
+#!/bin/bash
+
+random_number=$RANDOM
+
+echo "Random number: $random_number"
+
+logger -p user.info "Random number generated: $random_number"
+
+============================================================================================
+Exercise 2: (Practical-18.sh)
+Modify the previous script so that it uses a logging function. Additionally tag each syslog
+message with "randomly" and include the process ID. Generate 3 random numbers.
+
+#!/bin/bash
+
+log_message() {
+    local message=$1
+    local tag="randomly"
+    local pid=$$
+    logger -p user.info -t "$tag[$pid]" "$message"
+}
+
+for ((i=1; i<=3; i++)); do
+    random_number=$RANDOM
+    echo "Random number $i: $random_number"
+    log_message "Random number generated: $random_number"
+done
+
+============================================================================================
+********************************************************************************************
+Practice Exercises - While Loops
+********************************************************************************************
+Exercise 1: (Practical-19.sh)
+Write a shell script that loops through the /etc/passwd file one line at a time. Prepend each line
+with a line number followed by a colon and then a space.
+Example output:
+1: root:x:0:0:root:/root:/bin/bash
+2: daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+3: bin:x:2:2:bin:/bin:/usr/sbin/nologin
+4: sys:x:3:3:sys:/dev:/usr/sbin/nologin
+
+#!/bin/bash
+
+line_number=1
+
+while IFS= read -r line; do
+      echo "$line_number: $line"
+    ((line_number++))
+done < /etc/passwd
+
+============================================================================================
+Exercise 2: (Practical-20.sh)
+Write a shell script that asks the user for the number of lines they would like to display from the
+/etc/passwd file and display those lines.
+Example output:
+How many lines of /etc/passwd would you like to see? 3
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+
+#!/bin/bash
+
+echo "How many lines of /etc/passwd would you like to see?"
+read num_lines
+
+head -n "$num_lines" /etc/passwd
+
+===============================================================================================
+Exercise 3: (Practical-21.sh)
+Write a shell script that that allows a user to select an action from the menu. The actions are to
+show the disk usage, show the uptime on the system, and show the users that are logged into
+the system. Tell the user to enter q
+​ ​
+to quit. Display "Goodbye!" just before the script exits.
+If the user enters anything other than 1,2,3, or q, tell them that it is an "Invalid option."
+You can show the disk usage by using the df​ command. To show the uptime, use the uptime command. To show the users logged into the system, 
+use the who​ command. Print a blank line after the output of each command.
+
+Example output:
+1. Show disk usage.
+2. Show system uptime.
+3. Show the users logged into the system.
+What would you like to do? (Enter q to quit.) 2
+14:59:08 up 3 days, 7:36, 7 users, load average: 0.13, 0.22, 0.33
+1. Show disk usage.
+2. Show system uptime.
+3. Show the users logged into the system.
+What would you like to do? (Enter q to quit.) 4
+Invalid option.
+1. Show disk usage.
+2. Show system uptime.
+3. Show the users logged into the system.
+What would you like to do? (Enter q to quit.) q
+Goodbye!
+
+#!/bin/bash
+
+while true; do
+  
+    echo "1. Show disk usage."
+    echo "2. Show system uptime."
+    echo "3. Show the users logged into the system."
+    echo "What would you like to do? (Enter q to quit.)"
+    
+    read choice
+    
+    case $choice in
+        1)
+            df -h
+            ;;
+        2)
+            uptime
+            ;;
+        3)
+            who
+            ;;
+        q)
+            echo "Goodbye!"
+            exit 0
+            ;;
+        *)
+            echo "Invalid option."
+            ;;
+    esac
+    echo
+done
+
+==============================================================================================
+**********************************************************************************************
+Practice Exercises - Debugging
+**********************************************************************************************
+Exercise 1:(Practical-22.sh)
+Write a shell script that exit on error and displays commands as they will execute, including all
+expansions and substitutions. Use 3 ​
+ls​
+commands in your script. Make the first one succeed,
+the second one fail, and the third one succeed. If you are using the proper options, the third ​
+ls
+command will not be executed.
+
+#!/bin/bash
+
+set -e
+
+# Print commands as they execute
+set -x
+
+# First ls command (should succeed)
+ls
+
+# Second ls command (should fail)
+ls non_existent_directory
+
+# Third ls command (should not execute if the second one fails)
+ls
+
+# Rest of the script
+echo "Script completed successfully"
+
+=========================================================================================
+Exercise 2: (Practical-23.sh)
+Modify the previous exercise so that script continues, even if an error occurs. This time all three
+ls ​commands will execute.
+
+#!/bin/bash
+
+# Do not exit on error
+set +e
+
+# Print commands as they execute
+set -x
+
+# First ls command (should succeed)
+ls
+
+# Second ls command (may fail)
+ls non_existent_directory || true
+
+# Third ls command (should succeed)
+ls
+
+# Rest of the script
+echo "Script completed"
+
+=========================================================================================
+                                    Completed
+==========================================================================================
