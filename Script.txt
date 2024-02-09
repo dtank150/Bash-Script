@@ -1,0 +1,432 @@
+Scripts:-
+Contain a  series of commands.
+An interpreter executes commands in the script.
+Anything you can type at the command line, you can put in a script.
+Great for automating tasks.
+
+Shebang or Not to Shebang:-
+If a script does not contain a shebang the commands are executed using your shell.
+You might get lucky.Maybe.Hopefully.
+Different shells have slightly varying syntax.
+
+Variables:- 
+Storage locations that have a name
+Name-value pairs
+Syntax:-
+VARIABLE_NAME="Value"
+Variable are case sensitive
+By convention variables are uppercase
+
+Variable Usage:-
+#!/bin/bash
+MY_SHELL="bash"
+echo "I like the $MY_SHELL shell.
+
+#!/bin/bash
+MY_SHELL="bash"
+echo "I like the ${MY_SHELL} shell."
+
+Variable Names:-
+Valid:-
+FIRST3LETTERS="ABC"
+FIRST_THREE_LETTERS="ABC"
+firtsThreeLetters="ABC"
+
+Invalid:-
+3LETTERS="ABC"
+first_three-letter="ABC"
+fisrt@three@letters="ABC"
+
+Tests:- 
+Syntax:- [condition-to-test-for]
+Example:- [-e/etc/passed]
+
+File operattors(tests)
+-d FILE => True if file is a directory.
+-e FILE => True if file exists.
+-f FILE => True if file exists and is a regular file.
+-r FILE => True if file is readable by you.
+-s FILE => True if file exixts and is not empty.
+-w FILE => True if the file is writeable by you.
+-x FILE => True if the file is executable by you.
+
+String operators(tests)
+-z STRING => True if string is empty.
+-n STRING => True if string is not empty.
+STRING1 = STRING2 => True if the strings are equal.
+STRING1 != STRING2 => True if the string are not equal.
+
+Arithmaetic operators (tests)
+arg1 -eq arg2 => True if arg1 is equal to arg2.
+arg1 -ne arg2 => True if arg1 is not equal to arg2.
+
+arg1 -lt arg2 => True if arg1 is less than arg2.
+arg1 -le arg2 => True if arg1 is less than or equal to arg2.
+
+arg1 -gt arg2 => True if arg1 is grater than arg2.
+arg1 -ge arg2 => True if arg1 is grater than or equal to arg2.
+
+Making Decisions
+If Statement:-
+if [condition-is-true]
+then
+	command 1
+	command 2
+	command N
+fi
+
+IF/Else:-
+if [condition-is-true]
+then
+	command N
+else
+	command N
+fi
+
+IF/ELIF/Else:-
+if [condition-is-true]
+then 
+	command N
+elif [condition-is-true]
+then
+	Command N
+else
+	Command N
+fi
+
+For Loop:-
+for VARIABLE_NAME in ITEM_1 ITEM_N
+do
+	command 1
+	command 2
+	command N
+done
+
+Positional Parameters:-
+$script.sh parameter1 parameter2 parameter3
+	   $0:"script.sh"
+	   $1:"parameter1"
+	   $2:"parameter2"
+	   $3:"parameter3"
+
+Exit Status/ Return Code
+Every command returns an exit status
+Range from 0 to 255
+0 = success
+Other than 0 = error condition
+Use for error checking
+Use man or info to find meaning of exit status
+
+Checking the Exit Status:-
+$? contains the return code of the previously executed command.
+ls /not/here
+echo "$?
+
+&& = AND 
+mkdir /temp/bak && cp test.txt /temp/bak/
+|| = OR
+cp test.txt /temp/bak/ || cp test.txt/temp
+
+The Semicolon:-
+Separated commands with a semicolon to ensure they all get executed.
+
+cp test.txt /temp/bak/ ; cp test.txt/tmp
+
+Exit Command:-
+Explicitly define the return code 
+exit 0
+exit 1
+exit 2
+exit 255
+etc..
+The defalut value is that of the last command executed.
+
+Function:-
+If you're repeating yourself, use a function.
+Reusable code.
+Must be defined before use.
+Has parameter support.
+
+Two way to create a function in shell script
+1)
+Function function-name(){
+	#code goes here.
+}
+2)
+function-name(){
+	#code goes here.
+}
+
+Positional Parameters:-
+Function can accept parameters.
+The first parameter is stored in $1.
+The second parameter is stored in $2, etc.
+$@ contains all of the parameters.
+Just like shell scripts.
+$0 = the script itself, not function name.
+
+Variable Scope:-
+By defalut, variables are global
+Variables have to be defined before used.
+
+GLOBAL_VAR=1
+#GLOBAL_VAR is availble
+#in the function.
+my_function
+GLOBAL_VAR=1
+
+Local Variables:-
+Can only be accessed within the function.
+Create using the local keyword.
+local LOCAL_VAR=1
+Only functions can have local variables.
+Best practice to keep variables local in functions.
+
+Exit Staus(Return Codes):-
+Functions have an exit status 
+Explicitly:-
+retun <RETURN_CODE>
+Implicity:-
+This exit status of the last command executed in the function
+Valid exit codes range from 0 to 255
+0 = success
+$? = the exit status
+
+my_function
+echo $?
+
+Whildcards:-
+A character or string used for pattern matching.
+Globbing expands the wildcard pattern into a list of files and/or directories. (paths)
+Wildcards can be used with most commands.
+ls
+rm
+cp
+
+* => matches zero or more characters.
+*.txt
+a*
+a*.txt
+? => matches exactly one character.
+?.txt
+a?
+a?.txt 
+
+Wildcard - Character Classes
+[]- A character class.
+matches any of the characters included between the brackets. Matches exactly one character.
+[aeiou]
+ca[nt]*
+can , cat candy, catch
+
+[!]- Matches any of the charaters NOT included between the brackets. Matches exactly one character.
+[!aeiou]*
+baseball, cricket
+
+Wildcards-Range:-
+Use two characters separated by a hyphen to create a rang in a character class.
+[a-g]*
+Matches all files that start with a,b,c,d,e,f,or g.
+[3-6]*
+Matches all files that start with 3, 4, 5 or 6.
+
+Named Character Classes:-
+[[:alpha:]]
+[[:alnum:]]
+[[:digit:]]
+[[:lower:]]
+[[:space:]]
+[[:upper:]]
+
+Matching Wildcard patterns:-
+\ - escape character. Use if you want to match 
+a wildcard character.
+
+Match all files that end with a question mark:
+	*\?
+	done?
+
+Case Statement:-
+Alternative to if statements
+if["$VAR"="one"]
+elif["$VAR"="two"]
+elif["$VAR"="three"]
+elif["$VAR"="four"]
+May be easier to read than complex if statements.
+
+Syntax:-
+case "$VAR" in
+     pattern_1)
+	#Commands go here.
+	;;
+      pattern_N)
+	#Commands go here.
+	;;
+esac
+
+Logging:-
+Logs are the who, what, where, and why.
+Output may scroll off the screen.
+Script may run unattended(via cron, etc.)
+
+Syslog:-
+The syslog standard uses facilities and serverities to categorize messages.
+Facilities:- kern, user, mail, daemon, auth, local0, local7
+Serverities:- emerg, alert, crit, err, warning, notice, info, debug
+Log file locations are configurable:
+/var/log/messages
+/var/log/syslog
+
+Logging with logger
+The logger utility
+By default creates user.notice messages.
+
+logger "Message"
+logger -p local0.info "Message"
+logger -t myscript -p local0.info "Message"
+logger -i -t myscript "message".
+
+While Loop:-
+Syntxt:-
+while [CONDITION_IS_TRUE]
+do
+	command 1
+	command 2
+	command N
+done
+
+Infinite Loops:-
+while [CONDITION_IS_TRUE]
+do
+	#Commands do NOT change
+	#the condition
+	command N
+done 
+
+Infinite Loops:-
+while true
+do
+	command N
+	sleep 1
+done
+
+Reading a file line by line
+LINE_NUM=1
+while read LINE
+do
+ echo"${LINE_NUM}: ${LINE}"
+ ((LINE_NUM++))
+done < /etc/fstab
+
+Built in Debugging
+-x = Prints commands as rhey execute
+After substitutions and expansions
+Called an x-trace, tracing, or print debugging
+#!/bin/bash-x
+set-x
+set +x to stop debugging
+
+Example:- 
+#!/bin/bash -x 
+TEST_VAR="test"
+echo "$TEST_VAR"
+
+#!/bin/bash
+TEST_VAR="test"
+set -x
+echo $TEST_VAR
+set +x
+hostname
+
+-e = Exit on error.
+Can be combined with other options.
+#!/bin/bash-ex
+#!/bin/bash-xe
+#!/bin/bash-e-x
+#!/bin/bash-x-e
+
+Example:-
+#!/bin/bash -e
+FILE_NAME="/not/here"
+ls $FILE_NAME
+eacho $File_NAME
+
+#!/bin/bash -ex
+FILE_NAME="/not/here"
+ls $FILE_NAME
+eacho $File_NAME
+
+-v = Prints shell input lines as they are read.
+Can be combined with other options.
+ Example:- 
+#!/bin/bash -v 
+TEST_VAR="test"
+echo $"TEST_VAR"
+
+Manual Debugging:-
+You can create your own debugging code.
+Use a special variable like DEBUG
+DEBUG=true
+DEBUG=false
+
+ Manual Copy and Paste
+ Open up a second terminal.
+ Copy and paste the command into the terminal.
+ Can be helpful to use "set-x" on the command line.
+
+
+ Syntax Highlighting
+ Syntax errors are common.
+ Typos, missing brackets, missing quotes, etc.
+ Use an editor with syntax highlighting.
+ vi/vim
+ emacs
+ nano
+ gedit
+ kate
+ geany
+
+ PS4
+ Controls what is displayed before a line when using the "-x" option.
+  The default value is "+".
+   Bash Variables
+   BASH_SOURCE,LINENO,ETC
+
+   PS4='+ $BASH_SOURCE : $LINENO'
+
+DOS vs Linux (Unix) File Types
+CRLF/Carriage Return, Line Feed
+cat -v script.sh
+
+#!/bin/bash^M
+#This file contains carriage returns. ^M 
+echo "Hello world."^M
+
+file script.sh
+script.sh:Bourne-Again shell script,ASCII text executable, with CRLF line terminators
+dos2unix script.sh
+
+file script.sh
+script.sh:Bourne-Again shell script, ASCII text executable
+
+Sed and Streams:-
+Sed = Stream editor.
+A stream is data that travels from:
+One process to another through a pipe.
+One file to another as a redirect.
+One device to another.
+
+Standard Input = Standard Input Stream,etc.
+Steams are typically textual data.
+
+Sed Usage:-
+Sed performs text transformations on streams.
+ Examples:-
+ Substitue some text for other text.
+ Remove Lines.
+ Append text after given lines.
+ Insert text before certain lines.
+Sed is used programmatically, not interactively.
+
+
+
